@@ -55,7 +55,6 @@ public class TimerSetupView extends LinearLayout implements View.OnClickListener
 
     private TextView mTimeView;
     private View mDeleteView;
-    private View mDividerView;
     private TextView[] mDigitViews;
 
     /** Updates to the fab are requested via this container. */
@@ -91,7 +90,6 @@ public class TimerSetupView extends LinearLayout implements View.OnClickListener
 
         mTimeView = (TextView) findViewById(R.id.timer_setup_time);
         mDeleteView = findViewById(R.id.timer_setup_delete);
-        mDividerView = findViewById(R.id.timer_setup_divider);
         mDigitViews = new TextView[] {
                 (TextView) findViewById(R.id.timer_setup_digit_0),
                 (TextView) findViewById(R.id.timer_setup_digit_1),
@@ -105,18 +103,6 @@ public class TimerSetupView extends LinearLayout implements View.OnClickListener
                 (TextView) findViewById(R.id.timer_setup_digit_9),
         };
 
-        // Tint the divider to match the disabled control color by default and used the activated
-        // control color when there is valid input.
-        final Context dividerContext = mDividerView.getContext();
-        final int colorControlActivated = ThemeUtils.resolveColor(dividerContext,
-                R.attr.colorControlActivated);
-        final int colorControlDisabled = ThemeUtils.resolveColor(dividerContext,
-                R.attr.colorControlNormal, new int[] { ~android.R.attr.state_enabled });
-        ViewCompat.setBackgroundTintList(mDividerView, new ColorStateList(
-                new int[][] { { android.R.attr.state_activated }, {} },
-                new int[] { colorControlActivated, colorControlDisabled }));
-        ViewCompat.setBackgroundTintMode(mDividerView, PorterDuff.Mode.SRC);
-
         // Initialize the digit buttons.
         final UiDataModel uidm = UiDataModel.getUiDataModel();
         for (final TextView digitView : mDigitViews) {
@@ -129,7 +115,7 @@ public class TimerSetupView extends LinearLayout implements View.OnClickListener
         mDeleteView.setOnLongClickListener(this);
 
         updateTime();
-        updateDeleteAndDivider();
+        updateDelete();
     }
 
     public void setFabContainer(FabContainer fabContainer) {
@@ -219,10 +205,9 @@ public class TimerSetupView extends LinearLayout implements View.OnClickListener
                 r.getQuantityString(R.plurals.seconds, seconds, seconds)));
     }
 
-    private void updateDeleteAndDivider() {
+    private void updateDelete() {
         final boolean enabled = hasValidInput();
         mDeleteView.setEnabled(enabled);
-        mDividerView.setActivated(enabled);
     }
 
     private void updateFab() {
@@ -255,10 +240,10 @@ public class TimerSetupView extends LinearLayout implements View.OnClickListener
                 R.string.timer_descriptive_delete,
                 UiDataModel.getUiDataModel().getFormattedNumber(digit)));
 
-        // Update the fab, delete, and divider when we have valid input.
+        // Update the fab, and delete when we have valid input.
         if (mInputPointer == 0) {
             updateFab();
-            updateDeleteAndDivider();
+            updateDelete();
         }
     }
 
@@ -282,10 +267,10 @@ public class TimerSetupView extends LinearLayout implements View.OnClickListener
             mDeleteView.setContentDescription(getContext().getString(R.string.timer_delete));
         }
 
-        // Update the fab, delete, and divider when we no longer have valid input.
+        // Update the fab, and delete when we no longer have valid input.
         if (mInputPointer == -1) {
             updateFab();
-            updateDeleteAndDivider();
+            updateDelete();
         }
     }
 
@@ -294,7 +279,7 @@ public class TimerSetupView extends LinearLayout implements View.OnClickListener
             Arrays.fill(mInput, 0);
             mInputPointer = -1;
             updateTime();
-            updateDeleteAndDivider();
+            updateDelete();
         }
     }
 
@@ -331,7 +316,7 @@ public class TimerSetupView extends LinearLayout implements View.OnClickListener
                 }
             }
             updateTime();
-            updateDeleteAndDivider();
+            updateDelete();
         }
     }
 }

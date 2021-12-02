@@ -85,10 +85,6 @@ public final class ExpandedAlarmViewHolder extends AlarmItemViewHolder {
         hairLine = itemView.findViewById(R.id.hairline);
 
         final Context context = itemView.getContext();
-        itemView.setBackground(new LayerDrawable(new Drawable[] {
-                ContextCompat.getDrawable(context, R.drawable.alarm_background_expanded),
-                ThemeUtils.resolveDrawable(context, R.attr.selectableItemBackground)
-        }));
 
         // Build button for each day.
         final LayoutInflater inflater = LayoutInflater.from(context);

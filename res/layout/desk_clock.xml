@@ -22,8 +22,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    app:statusBarBackground="@null"
-    android:navigationBarColor="@null"
     android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -93,6 +91,7 @@
                 android:id="@+id/fab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+		app:backgroundTint="@color/background_floating"
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/fab_margin"
                 app:borderWidth="0dp"
@@ -123,7 +122,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/content"
-        android:background="@color/default_background"
+        android:background="@color/secondary_bg"
         app:menu="@menu/bottom_navigation_menu"
         app:itemIconTint="@color/tab_tint_color"
         app:itemTextColor="@color/tab_tint_color"
